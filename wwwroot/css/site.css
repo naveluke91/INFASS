@@ -12665,3 +12665,14 @@ html {
 .copyright {
     background-color: #1a252f;
 }
+
+/* Fix: ensure nav-link hover background is not clipped */
+#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+    color: #1abc9c;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+#mainNav,
+#mainNav .navbar-collapse,
+#mainNav .navbar-nav {
+    overflow: visible !important;
+}
