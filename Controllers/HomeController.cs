@@ -9,8 +9,8 @@ namespace INFASS.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        // Simple in-memory user store
-       
+        public static List<User> UserList = new List<User>();
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -26,11 +26,7 @@ namespace INFASS.Controllers
         {
             return View();
         }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
+ 
         [HttpGet]
         public IActionResult Register()
         {
@@ -42,9 +38,32 @@ namespace INFASS.Controllers
         {
             User user = new User();
             string generatedQuery = user.Registration(Username, Password, ConfirmPassword);
+
+            // I-add ang user sa atong listahan para ma-save siya temporarily
+            UserList.Add(user);
+
             return Json(new { queryMessage = generatedQuery });
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string Username, string Password)
+        {
+            foreach (var savedUser in UserList)
+            {
+                if (savedUser.Username == Username && savedUser.Password == Password)
+                {
+                    return Json(new { success = true});
+                }
+            }
+
+            return Json(new { success = false});
+        }
 
 
     }

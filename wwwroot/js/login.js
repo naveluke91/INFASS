@@ -4,16 +4,18 @@ $(document).ready(function () {
         var password = $('#loginPassword').val();
 
         $.ajax({
-            url: '/Home/LoginUser',
+            url: '/Home/Login', 
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ username: username, password: password }),
+            data: {
+                Username: username,
+                Password: password
+            },
             success: function (data) {
                 if (data.success) {
-                    alert(data.message);
-                    window.location.href = '/';
+                    alert(data.message); 
+                    window.location.href = '/'; 
                 } else {
-                    alert(data.message);
+                    alert(data.message); 
                 }
             },
             error: function () {
