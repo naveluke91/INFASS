@@ -7,18 +7,18 @@
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
 
-
-        public string Registration(string uname, string pwd, string confirmPwd)
+        public string Registration(string tableName, string[] columns, string[] values)
         {
-       
-            this.Username = uname;
-            this.Password = pwd;
-            this.ConfirmPassword = confirmPwd;
+            string columnString = "";
+            string valueString = "";
 
-            string queryFormat = $"INSERT INTO Users\nVALUES('{this.Username}', '{this.Password}', '{this.ConfirmPassword}')";
+            for (int i = 0; i < columns.Length; i++)
+            {
+                columnString += columns[i] + (i < columns.Length - 1 ? ", " : "");
+                valueString += $"'{values[i]}'" + (i < values.Length - 1 ? ", " : "");
+            }
 
-            return queryFormat;
+            return $"INSERT INTO {tableName} ({columnString})\nVALUES({valueString})";
         }
     }
-    
 }
