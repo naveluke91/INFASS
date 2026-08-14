@@ -12,10 +12,10 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.success) {
-                    alert(data.message); 
-                    window.location.href = '/'; 
+                    alert('Login successful! Welcome back.');
+                    window.location.href = '/';
                 } else {
-                    alert(data.message); 
+                    alert('Invalid username or password.');
                 }
             },
             error: function () {
