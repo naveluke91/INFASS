@@ -37,7 +37,7 @@ namespace INFASS.Controllers
         public IActionResult Register(string Username, string Password, string ConfirmPassword)
         {
             User user = new User();
-            string generatedQuery = user.Registration(Username, Password, ConfirmPassword);
+            string generatedQuery = user.Registration("Users", new[] { "Username", "Password", "ConfirmPassword" }, new[] { Username, Password, ConfirmPassword });
 
             // I-add ang user sa atong listahan para ma-save siya temporarily
             UserList.Add(user);

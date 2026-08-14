@@ -1,4 +1,4 @@
-﻿namespace INFASS.Models
+namespace INFASS.Models
 {
     public class User
     {
