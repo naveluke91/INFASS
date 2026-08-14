@@ -1,5 +1,16 @@
 $(document).ready(function () {
 
+
+    // Helper: close modal and force clean up any stuck backdrop
+    function closeModal(modalId) {
+        var modalEl = document.getElementById(modalId);
+        bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+        setTimeout(function () {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open').css('padding-right', '');
+        }, 300);
+    }
+
     // Load accounts into the table
     function loadAccounts() {
         $.ajax({
@@ -64,7 +75,7 @@ $(document).ready(function () {
             data: { Username: username, Password: password },
             success: function (data) {
                 if (data.success) {
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('insertAccountModal')).hide();
+                    closeModal('insertAccountModal');
                     $('#insertUsername').val('');
                     $('#insertPassword').val('');
                     loadAccounts();
@@ -80,7 +91,7 @@ $(document).ready(function () {
         $('#viewId').text($(this).data('index') + 1);
         $('#viewUsername').text($(this).data('username'));
         $('#viewPassword').text($(this).data('password'));
-        new bootstrap.Modal(document.getElementById('viewAccountModal')).show();
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('viewAccountModal')).show();
     });
 
     // UPDATE button - open modal pre-filled
@@ -88,7 +99,7 @@ $(document).ready(function () {
         $('#updateIndex').val($(this).data('index'));
         $('#updateUsername').val($(this).data('username'));
         $('#updatePassword').val('');
-        new bootstrap.Modal(document.getElementById('updateAccountModal')).show();
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('updateAccountModal')).show();
     });
 
     // CONFIRM UPDATE
@@ -103,7 +114,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.success) {
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('updateAccountModal')).hide();
+                    closeModal('updateAccountModal');
                     loadAccounts();
                 } else {
                     alert('Update failed.');
@@ -116,7 +127,7 @@ $(document).ready(function () {
     $(document).on('click', '.btn-delete', function () {
         $('#deleteIndex').val($(this).data('index'));
         $('#deleteUsername').text($(this).data('username'));
-        new bootstrap.Modal(document.getElementById('deleteAccountModal')).show();
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteAccountModal')).show();
     });
 
     // CONFIRM DELETE
@@ -127,7 +138,7 @@ $(document).ready(function () {
             data: { index: $('#deleteIndex').val() },
             success: function (data) {
                 if (data.success) {
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteAccountModal')).hide();
+                    closeModal('deleteAccountModal');
                     loadAccounts();
                 } else {
                     alert('Delete failed.');
